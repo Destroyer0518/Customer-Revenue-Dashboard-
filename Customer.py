@@ -15,10 +15,13 @@ st.title("📊 Customer Revenue & Churn Intelligence Dashboard")
 # MongoDB Connection
 # ---------------------------
 @st.cache_resource
+import os
+
 def get_mongo_client():
-    mongo_secrets = st.secrets["mongo"]
-    client = MongoClient(mongo_secrets["uri"])
-    return client[mongo_secrets["db_name"]]
+    uri = os.getenv("MONGO_URI")
+    db_name = os.getenv("MONGO_DB_NAME")
+    client = MongoClient(uri)
+    return client[db_name]
 
 
 def insert_to_mongo(df, collection_name):
